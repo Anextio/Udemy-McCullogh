@@ -27,7 +27,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
     }
     catch(e) {
       console.log("Error: ", e);
-      res.status(200).send("Error processing the image.")
+      res.status(400).send("Error processing the image.")
     }
   } );
 
