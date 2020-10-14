@@ -14,28 +14,28 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
 
-  app.get( "/filteredimage", async ( Request, Response ) => {
-    const image_url: string = Request.query.image_url;
+  app.get( "/filteredimage", async ( req: Request, res: Response ) => {
+    const image_url: string = req.query.image_url;
     if(!image_url){
-      Response.status(200).send("Must include an image url.");
+      res.status(200).send("Must include an image url.");
     }
     try {
       /*TODO Implement error handling if the url passed in is not an image
       I'm not a fan that if the url sent in is incomplete, the whole thing breaks.
       will most likely use a regex statement to fix this. */
       let filteredImageUrl = await filterImageFromURL(image_url);
-      Response.sendFile(filteredImageUrl, () => deleteLocalFiles([filteredImageUrl]))
+      res.sendFile(filteredImageUrl, () => deleteLocalFiles([filteredImageUrl]))
     }
     catch(e) {
       console.log("Error: ", e);
-      Response.status(400).send("Error processing the image.")
+      res.status(400).send("Error processing the image.")
     }
   } );
 
   // Root Endpoint
   // Displays a simple message to the user
-  app.get( "/", async ( Request, Response ) => {
-    Response.send("try GET /filteredimage?image_url={{}}")
+  app.get( "/", async ( req: Request, res: Response ) => {
+    res.send("try GET /filteredimage?image_url={{}}")
   } );
   
 
